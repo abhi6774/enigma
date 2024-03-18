@@ -1,6 +1,7 @@
 import fitz
 from logger import log
 
+
 def extract_text_from_pdf(filename: str):
     try:
         doc = fitz.open(filename)

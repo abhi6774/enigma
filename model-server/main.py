@@ -1,9 +1,10 @@
 from fastapi import FastAPI
-from fastapi.logger import logger
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from summarizer import _summarize_text
+from summarizer import summarize_text, summarize_from_pdf
 from pydantic import BaseModel
+from fastapi import UploadFile, File
+from uuid import uuid4
 
 load_dotenv()
 
@@ -22,21 +23,40 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def index():
-    return { "app_name": "enigma", "team_name": "The Strivers" }
+    return {"app_name": "enigma", "team_name": "The Strivers"}
 
 
 class Input(BaseModel):
     content: str
 
-@app.post("/summarize/pdf")
-def get_summary():
-    return {}
+
+@app.post("/summarize")
+async def summarize_the_text(data: Input):
+    summary = summarize_text(data.content)
+    return summary
+
 
 @app.post("/summarize/text")
 def get_summary_from_text(data: Input):
-    result = _summarize_text(data.content)
-    return { 
+    result = summarize_text(data.content)
+    return {
         "summary": result
+    }
+
+
+@app.post("/summarize/pdf")
+async def get_summary(file: UploadFile = File()):
+    ROOT_PATH="./tmp"
+    fileData = await file.read()
+
+    with open(f"{ROOT_PATH}/{file.filename}", "bw") as writeFile:
+        writeFile.write(fileData)
+
+    summary = summarize_from_pdf(f"{ROOT_PATH}/{file.filename}")
+
+    return {
+        **summary,
     }
