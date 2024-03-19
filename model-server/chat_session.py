@@ -4,7 +4,7 @@ import requests
 import json
 from logger import log
 import os
-
+    
 @dataclass
 class Message:
     role: str

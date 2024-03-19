@@ -25,6 +25,11 @@ function Convo({ params }) {
   //   // if (sessionData) setChatData(sessionData.messages);
   // }, [sessionData]);
 
+  useEffect(()=>{
+    
+    scrollToBottom();
+  },[chatData])
+
   async function handleSubmit() {
     if (inputQuery.trim() === "") return;
 
@@ -36,17 +41,15 @@ function Convo({ params }) {
     setChatData((prevChatData) => [...prevChatData, dataTemplate]);
     document.querySelector("#query").value = "";
 
-    scrollToBottom();
-
     apifetch(inputQuery);
   }
 
-  const mainElement = document.querySelector("#\\#main");
+  // const mainElement = document.querySelector("#\\#main");
 
   function scrollToBottom() {
     // mainElement.scrollTop = mainElement.scrollHeight;
     const el = document.querySelector("#c_con");
-    el.scroll(0, el.scrollHeight);
+    el ? el.scroll(0, el.scrollHeight) : null
   }
 
   const handleKeyPressOnInput = (e) => {
@@ -85,7 +88,6 @@ function Convo({ params }) {
         return updatedChatData;
       });
 
-      scrollToBottom();
       console.log(document.querySelector("#\\#main").scrollHeight);
     } catch (error) {
       console.log("Got error:", error);
@@ -100,11 +102,11 @@ function Convo({ params }) {
     <div className={styles.parentContainer}>
       <Navbar />
 
-      <div id="#main" className={styles.main}>
+      <div style={{overflow:"hidden"}} id="#main" className={styles.main}>
         <div
           id="c_con"
           style={{
-            overflow: "scroll",
+            overflowY: "scroll",
             width: "100vw",
             height: "calc(100vh - 4.5rem)",
             scrollBehavior: "smooth",

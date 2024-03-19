@@ -45,6 +45,28 @@ $navbarGradEnd: #1765A9;
     overflow: hidden;
 }
 
+#main{
+    overflow: hidden;
+}
+
+#c_con{
+    &::-webkit-scrollbar {
+        width: 5px ;
+    }
+  
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    &::-webkit-scrollbar-thumb {    
+        background: #888;
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+
 .main{
     font-family: "Be Vietnam Pro", sans-serif;
     width: 100vw;
@@ -57,12 +79,9 @@ $navbarGradEnd: #1765A9;
     flex-direction: column;
     background-color: $lightBackground;
 
-    &::-webkit-scrollbar{
-        display: none;
-    }
 }
 #containers{
-    padding-bottom: 2rem;
+    padding-bottom: 2rem;   
     width: 60vw;
     margin: auto;
     .que{
@@ -104,7 +123,7 @@ $navbarGradEnd: #1765A9;
     list-style-type: none;
     @include flexCenter(row);
     justify-content: flex-start;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
     padding-left: 20px;
     cursor: default;
@@ -120,6 +139,13 @@ $navbarGradEnd: #1765A9;
         }
     }
 }   
+.keypoints {
+    gap: 10px;
+    li{
+        font-size: 14px !important;
+    }
+
+}
 .inputbox{
     @include flexCenter(row);
     letter-spacing: 8px;
