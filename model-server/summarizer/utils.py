@@ -1,6 +1,17 @@
 import fitz
 from logger import log
+import re
 
+
+def remove_single_char_lines(paragraph):
+    lines = paragraph.split('\n')
+    filtered_lines = []
+
+    for line in lines:
+        if not re.match(r'^[A-Z]$', line.strip()):
+            filtered_lines.append(line)
+
+    return '\n'.join(filtered_lines)
 
 def extract_text_from_pdf(filename: str):
     try:
@@ -11,8 +22,9 @@ def extract_text_from_pdf(filename: str):
 
         for page in doc:
             page_text: str = page.get_text()
+            page_text = remove_single_char_lines(page_text).replace("\n", " ")
             page_count += 1
-            without_new_line = page_text.strip().replace("\n", " ") 
+            without_new_line = page_text.strip()
             log("Page", str(page_count) + ":", without_new_line)
             extracted_text += without_new_line
             total_words += len(page_text.split())

@@ -31,8 +31,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
 @app.get("/")
 def index():
     return {"app_name": "enigma", "team_name": "The Strivers"}
@@ -53,7 +51,7 @@ async def summarize_the_text(data: Input):
 @app.post("/summarize/text", response_class=RedirectResponse, status_code=302)
 def get_summary_from_text(data: Input):
     summary = summarize_text(data.content)
-    chat_session_id = uuid4()
+    chat_session_id = uuid4().hex
     session = sessions.get_chat_session(chat_session_id)
     model_response = session.set_context(data.content)
     log(model_response)
@@ -90,7 +88,9 @@ async def get_summary(file: UploadFile = File()):
     key_entities = extract_key_phrase(summary["original_text"])
     session.set_key_entities(key_entities)
 
-    return f"http://localhost:3000/conversation/{session_id}"
+    return {
+        "session_id": session_id[0]
+    }
 
 
 @dataclass
@@ -114,7 +114,7 @@ def talk(chat_session: str):
         **session.__dict__,
         "summary": session.get_summary(),
         "key_entities": session.get_key_entities(),
-        "messages": session.get_messages()[1:]
+        "messages": session.get_messages()[session._context_width:]
     }
 
 
