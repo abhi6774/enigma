@@ -20,10 +20,21 @@ $navbarGradEnd: #1765A9;
     transition: 300ms ease-in-out; 
 }
 
+@keyframes fade{
+    0%{
+        opacity: 0%;
+    }
+    100%{
+        opacity: 100%;
+    }
+}
+
 .parentContainer{
     width: 100vw;
     height: 100vh;
     color: $darkText;
+    animation: 250ms fade ease-in-out;
+
     h2,h1{
         font-size: 20px;
         font-weight: 600;
@@ -131,20 +142,23 @@ $navbarGradEnd: #1765A9;
         padding: .5rem 1.3rem;
         border-radius: 30px;
         background-color: #353535;
-        box-shadow: 1px 2px 3px #999;
+        box-shadow: 1px 2px 3px #ccc;
         color: white;
         &:hover{
             opacity: .95;
             @include transition;
         }
     }
-}   
+}
+
 .keypoints {
     gap: 10px;
     li{
         font-size: 14px !important;
+        color: #053781;
+        background: rgba(56, 139, 253, .2);
+        font-weight: 600;
     }
-
 }
 .inputbox{
     @include flexCenter(row);

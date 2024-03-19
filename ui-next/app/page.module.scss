@@ -22,6 +22,15 @@ $navbarGradEnd: #083964;
   transition: 300ms ease-in-out;
 }
 
+@keyframes fade{
+  0%{
+      opacity: 0%;
+  }
+  100%{
+      opacity: 100%;
+  }
+}
+
 
 .loadingContainer {
   width: 10px;
@@ -51,6 +60,7 @@ $navHeight: 3.75rem;
   height: 100vh;
   background-color: $lightBackground;
   color: $darkText;
+  animation: 250ms fade ease-in-out;
 }
 
 .nav{
