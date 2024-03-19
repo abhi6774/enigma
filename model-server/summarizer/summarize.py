@@ -36,6 +36,15 @@ class KeyPhraseExtractionPipeline(TokenClassificationPipeline):
         )
         return np.unique([result.get("word").strip() for result in results])
 
+def extract_key_phrase(text: str):
+    model_name = "ml6team/keyphrase-extraction-kbir-inspec"
+    extractor = KeyPhraseExtractionPipeline(model=model_name)
+    result = extractor(text.replace("\n", " "))
+    key_entities = []
+    for i in result:
+        key_entities.append(i)
+    return key_entities
+
 
 def summarize(text: str, total_length: int):
     summary = ""
