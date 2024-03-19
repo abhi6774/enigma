@@ -38,6 +38,7 @@ class Chat:
     _summary: str
     _key_entities: list[str]
     _chat_content: list[Message] = []
+    _context_width = 0
 
     _system="""
         You are Enigma, an LLM developed by Team Strivers to summarize legal documents and extract key insights. Your primary function is to respond to questions related to specific paragraphs within these documents.
@@ -52,18 +53,7 @@ class Chat:
     """
 
     def set_summary(self, summary: str):
-        log()
-        log("Summary Form Set Summary")
-        log()
-        log()
-        log(summary)
         self._summary = summary
-        log()
-        log()
-        log("Summary Form Set Summary")
-        log()
-
-        log(self._summary)
 
     def get_summary(self):
         log(self._summary)
@@ -81,8 +71,15 @@ class Chat:
     def set_context(self, context: str):
         self._context = context
         log(self._chat_content)
-        self._chat_content.append(
-            Message(f"[Context] \n{self._context} [Context] \n[Provide Answer to the question based on this context.]"))
+        if len(self._context) > 6144:
+            context_copy = self._context
+            while len(context_copy) > 6144:
+                self._context_width += 1
+                piece,context_copy = context_copy[:6000], context_copy[6000:]
+                self._chat_content.append(
+                    Message(f"[Context] \n{piece} [Context]", role="assistant"))
+            if (self._context_width < 1):
+                self._context_width = 1
         return "done"
 
     def get_context(self):
@@ -105,6 +102,7 @@ class Chat:
         )
 
         result = response.json()
+        log(result)
         if result["success"]:
             log(result["result"]["response"])
             self._chat_content.append(Message(role="assistant", content=result["result"]["response"]))

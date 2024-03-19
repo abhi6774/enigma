@@ -8,6 +8,7 @@ import numpy as np
 from logger import log
 import requests
 from summarizer.utils import split_text, extract_text_from_pdf
+import re
 
 summarizer = pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
 
@@ -53,7 +54,7 @@ def summarize(text: str, total_length: int):
         splitted_text = split_text(text, total_length, 800)
         summary_pieces = []
         for t in splitted_text:
-            log("T\n\n", t)
+            log(t)
             summary_pieces.append(summarize_with_llama(t))
         summary = summarize_with_llama("".join(summary_pieces))
     else:
