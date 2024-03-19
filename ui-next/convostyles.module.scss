@@ -121,6 +121,7 @@ $navbarGradEnd: #1765A9;
     }
 }   
 .inputbox{
+    
     @include flexCenter(row);
     letter-spacing: 8px;
     width: 100vw;
@@ -176,3 +177,56 @@ $navbarGradEnd: #1765A9;
         }
     }
 }
+
+.tagsComponentDiv{
+    border-radius: 0 30px 30px 30px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding-left: 20px;
+    cursor: default;
+    width: 50vw;
+}
+
+.tags{
+    letter-spacing: 0;
+    transform: translate(0, 45%);
+    z-index: 2;
+
+    label{
+        padding: 0.5rem 1.3rem;
+        border-radius: 30px;
+        box-shadow: 1px 2px 3px #ccc;
+        height: 30px;
+        width: 60px;
+        border: 1px solid transparent;
+        -webkit-user-select: none;
+        font-size: 14px !important;
+        color: #fff;
+        background-color: #111;
+        font-weight: 600;
+        animation: 200ms fade ease-in-out;
+
+        &:hover{
+            opacity: 0.9;
+            background-color: #333;
+            border: 1px solid #333;
+            transition: 300ms ease-in-out;
+        }
+    }
+}
+
+@keyframes fade{
+    0%{
+        opacity: 0%;
+    }
+    100%{
+        opacity: 100%;
+    }
+  }
+  

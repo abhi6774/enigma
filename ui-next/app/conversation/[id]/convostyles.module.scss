@@ -126,6 +126,10 @@ $navbarGradEnd: #1765A9;
     border: 1px solid #999;
     border-radius: 10px;
 }
+.tagContainer{
+    height: auto;
+    width: auto;
+}
 .summary, .keypoints{
     // padding: 2rem 3rem;
     // outline: 1px solid #ccc;
@@ -138,27 +142,46 @@ $navbarGradEnd: #1765A9;
     flex-wrap: wrap;
     padding-left: 20px;
     cursor: default;
-    li{
+    li, label{
         padding: .5rem 1.3rem;
         border-radius: 30px;
         background-color: #353535;
         box-shadow: 1px 2px 3px #ccc;
         color: white;
+        height: 30px;
+        width: 60px;
+        border: 1px solid transparent;
+        -webkit-user-select: none; /* Safari */
         &:hover{
             opacity: .95;
+            border: 1px solid black;
             @include transition;
         }
     }
+
+    input[type="checkbox"]:checked + label {
+        background-color: rgb(111, 164, 237);
+    }    
 }
 
+.tempbutton{
+    padding: 20px;
+}  
+
 .keypoints {
-    gap: 10px;
-    li{
+    gap: 25px 15px;
+    li, label{
         font-size: 14px !important;
         color: #053781;
-        background: rgba(56, 139, 253, .2);
+        background: rgb(213 230 253);
         font-weight: 600;
+        &:hover{
+            background: rgb(111 164 237);
+        }
     }
+    // &:active{
+    //     background: blue;
+    // }
 }
 .inputbox{
     @include flexCenter(row);
@@ -166,8 +189,10 @@ $navbarGradEnd: #1765A9;
     width: 100vw;
     z-index: 2;
     bottom: 0;
-    height: 4.5rem;
     margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
 
     form{
         @include flexCenter(row);

@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import React from "react";
 import { fetchSessionData } from "./fetchData";
+import TagsComponent from '../../components/TagsComponent'
 
 function Convo({ params }) {
   const session_id = params.id;
@@ -12,6 +13,7 @@ function Convo({ params }) {
 
   const [inputQuery, setInputQuery] = useState("");
   const [chatData, setChatData] = useState([]);
+  const [keys, setkeys] = useState([])
 
   useEffect(() => {
     fetchSessionData(session_id).then(({ data, error }) => {
@@ -59,6 +61,25 @@ function Convo({ params }) {
     }
   };
 
+  const updateCheckBoxes=(e)=>{
+    const keycurrent = e.target.innerHTML
+    setkeys(prevKeys => {
+      if(keys){
+        if(keys.includes(keycurrent)){
+          return keys.filter(item => item !== keycurrent);
+        }else{
+          return [...prevKeys, keycurrent]
+        }
+      }
+    })
+  }
+
+  useEffect(() => {
+    console.log(keys);
+  }, [keys]);
+
+
+
   async function apifetch(query) {
     try {
       const dataraw = await fetch(
@@ -98,6 +119,33 @@ function Convo({ params }) {
     return <div>Loading...</div>;
   }
 
+  // inline styles:
+
+
+  const tagsComponentDivStyles = {
+    borderRadius : "0 30px 30px 30px",
+    listStyleType: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    gap: "15px",
+    flexWrap: "wrap",
+    paddingLeft: "20px",
+    cursor: "default",
+    width: "50vw"
+  }
+
+  // <div className={styles.tagsComponentDiv}> 
+  // {keys.map((input, index)=>{
+  //     return <div key={index} className={styles.tags}>
+  //           <input style={{display:"none"}} className={styles.qw} id={`${"checkTag"}` + index } type="checkbox"/>
+  //           <label onClick={(e)=>updateCheckBoxes(e)} htmlFor={`${"checkTag"}` + index } key ={index}>{input}</label>
+  //         </div> 
+  //     })}
+  // </div>
+
   return (
     <div className={styles.parentContainer}>
       <Navbar />
@@ -122,10 +170,13 @@ function Convo({ params }) {
               Summary-
             </h2>
               <div style={{whiteSpace: "break-spaces", lineHeight: "1.5rem"}} className={styles.summary}>{sessionData.summary}</div>
-            <h2 className={styles.secondhead}>Key Entities-</h2>
+            <h2 className={styles.secondhead}>Key entities-</h2>
             <ul className={styles.keypoints}>
               {sessionData.key_entities.map((input, index) => {
-                return <li key={index}>{input}</li>;
+                return <div key={index} className={styles.tagContainer}>
+                  <input style={{display:"none"}} className={styles.checkTag} id={`${"checkTag"}` + index } type="checkbox"/>
+                  <label onClick={(e)=>updateCheckBoxes(e)} htmlFor={`${"checkTag"}` + index } key ={index}>{input}</label>
+                </div> 
               })}
             </ul>
           </div>
@@ -166,8 +217,20 @@ function Convo({ params }) {
           })}
         </div>
 
-        <div>
+        <div style={{backgroundColor:"transparent"}}>
           <div className={styles.inputbox}>
+
+            {/* <TagsComponent keys={keys}/> */}
+
+            <div styles={tagsComponentDivStyles}> 
+            {keys.map((input, index)=>{
+                return <div key={index} className={styles.tags}>
+                      <input style={{display:"none"}} className={styles.qw} id={`${"checkTag"}` + index } type="checkbox"/>
+                      <label onClick={(e)=>updateCheckBoxes(e)} htmlFor={`${"checkTag"}` + index } key ={index}>{input}</label>
+                    </div> 
+                })}
+            </div>
+
             <form action="" method="post">
               <textarea
                 onChange={(e) => setInputQuery(e.target.value)}
