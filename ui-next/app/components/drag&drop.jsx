@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 const DragDropFiles = () => {
   const [files, setFiles] = useState(null);
   const [fileAvailibility, setFileAvailibility] = useState("file not available")
+  const [fetchingPDF, setfetchingPDF] = useState(false)
   const router = useRouter();
   const inputRef = useRef();
 
@@ -27,7 +28,10 @@ const DragDropFiles = () => {
 
       const formData = new FormData();
       formData.append("file", files[0]); 
-  
+      
+      setfetchingPDF(true)
+      console.log(fetchingPDF)
+
       try{
         const response = await fetch("http://192.168.200.169:8000/summarize/pdf", {
           method: "POST",
@@ -87,14 +91,16 @@ const DragDropFiles = () => {
     files == null ? setFileAvailibility(null) : setFileAvailibility(files[0].name)
   },[files])
 
-  if (files) 
+  if (files)    
   return (
     <div className={styles.dragdropContainer}>
       <div className={styles.card}>
         <h4>{files[0].name}</h4>      
         <button className={styles.selectFileBtn} onClick={() => setFiles(null)}>Cancel</button>
       </div>
-        <button onClick={()=>Upload()} id={styles.analysisbutton}>Analysis Results</button>
+
+     {fetchingPDF ?  <button onClick={()=>Upload()} id={styles.analysisbutton} className={styles.analysisbutton2} >Analysis Results <div className={styles.loadingContainer}></div></button> : <button onClick={()=>Upload()} id={styles.analysisbutton}>Analysis Results</button>}
+      
     </div>
   )
 
