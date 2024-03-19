@@ -80,15 +80,15 @@ function Convo({ params }) {
       }
 
       const data = await dataraw.json();
-      console.log(data);
+      // console.log(data);
 
       setChatData((prevChatData) => {
         const updatedChatData = [...prevChatData, { role: "assistant", content: data}]
-        console.log(chatData);
+        // console.log(chatData);
         return updatedChatData;
       });
 
-      console.log(document.querySelector("#\\#main").scrollHeight);
+      // console.log(document.querySelector("#\\#main").scrollHeight);
     } catch (error) {
       console.log("Got error:", error);
     }

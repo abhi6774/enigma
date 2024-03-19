@@ -4,7 +4,7 @@ import requests
 import json
 from logger import log
 import os
-    
+from exec_time import execution_time
 @dataclass
 class Message:
     role: str
@@ -77,7 +77,8 @@ class Chat:
 
     def get_context(self):
         return self._context
-
+    
+    @execution_time
     def _get_model_response(self) -> str:
         try:
             model_url = "https://api.mistral.ai/v1/chat/completions"

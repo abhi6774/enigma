@@ -30,7 +30,7 @@ const DragDropFiles = () => {
       formData.append("file", files[0]); 
       
       setfetchingPDF(true)
-      console.log(fetchingPDF)
+      // console.log(fetchingPDF)
 
       try{
         const response = await fetch("http://192.168.200.169:8000/summarize/pdf", {

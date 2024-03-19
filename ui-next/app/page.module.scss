@@ -1,4 +1,4 @@
-$lightBackground: #f2f2f2;
+$lightBackground: #fdfdfd;
 $darkText: #222222;
 $dialougeBackground: #f2efef;
 $chatDialougeBackground: #EDEDED;
@@ -192,7 +192,7 @@ $navHeight: 3.75rem;
     justify-content: space-evenly;
     // gap: 1.75rem;
     background-color: $dialougeBackground;
-    box-shadow: 0 0 35px 7px rgba(0,0,0,20%);
+    box-shadow: 0 0 35px 7px rgba(0,0,0,15%);
     transform: scale(0.9);
     padding: 2rem;
     word-break: break-all;

@@ -9,6 +9,7 @@ import numpy as np
 from logger import log
 import requests
 from summarizer.utils import split_text, extract_text_from_pdf
+from exec_time import execution_time
 
 summarizer = pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
 
@@ -57,7 +58,7 @@ def summarize(text: str, total_length: int):
             summary_pieces.append(st)
         summary = summarize_with_mistral("".join(summary_pieces))
     else:
-        summary = summarize_text(text)
+        summary = summarize_text(text)[0]["summary_text"]
 
     return summary
 
@@ -75,7 +76,7 @@ def summarize_from_pdf(filename: str):
     }
 
 
-
+@execution_time
 def summarize_with_mistral(text: str) -> str:
     model_url = "https://api.mistral.ai/v1/chat/completions"
     key=os.environ.get("MISTRAL_KEY")
