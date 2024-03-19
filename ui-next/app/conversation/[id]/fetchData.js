@@ -18,6 +18,7 @@ export async function fetchSessionData(sessionId) {
        */
       const data = await dataraw.json();
       response.data = data;
+      console.log(data.summary)
     } catch (error) {
       console.log("Got error:", error);
       response.error = error;

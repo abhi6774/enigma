@@ -121,7 +121,7 @@ function Convo({ params }) {
               />
               Summary-
             </h2>
-            <p className={styles.summary}>{sessionData.summary}</p>
+              <div style={{whiteSpace: "break-spaces", lineHeight: "1.5rem"}} className={styles.summary}>{sessionData.summary}</div>
             <h2 className={styles.secondhead}>Key Entities-</h2>
             <ul className={styles.keypoints}>
               {sessionData.key_entities.map((input, index) => {
