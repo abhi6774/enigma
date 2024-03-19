@@ -7,7 +7,6 @@ import React from "react";
 import { fetchSessionData } from "./fetchData";
 
 function Convo({ params }) {
-
   const session_id = params.id;
   const [sessionData, setSessionData] = useState(null);
 
@@ -15,19 +14,16 @@ function Convo({ params }) {
   const [chatData, setChatData] = useState([]);
 
   useEffect(() => {
-    fetchSessionData(session_id)
-    .then(({data, error}) => {
+    fetchSessionData(session_id).then(({ data, error }) => {
       if (error) {
         setSessionData(null);
-      } else
-      setSessionData(data);
-    })
+      } else setSessionData(data);
+    });
   }, []);
-  
+
   useEffect(() => {
-    if (sessionData)
-      setChatData(sessionData.messages)
-  }, [sessionData])
+    if (sessionData) setChatData(sessionData.messages);
+  }, [sessionData]);
 
   async function handleSubmit() {
     if (inputQuery.trim() === "") return;
@@ -50,8 +46,8 @@ function Convo({ params }) {
 
   function scrollToBottom() {
     mainElement.scrollTop = mainElement.scrollHeight;
-    const el = document.querySelector("#c_con")
-    el.scrollBy(0, el.scrollHeight)
+    const el = document.querySelector("#c_con");
+    el.scrollBy(0, el.scrollHeight);
   }
 
   const handleKeyPressOnInput = (e) => {
@@ -99,7 +95,7 @@ function Convo({ params }) {
   }
 
   if (!sessionData) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -107,7 +103,15 @@ function Convo({ params }) {
       <Navbar />
 
       <div id="#main" className={styles.main}>
-        <div id="c_con" style={{ overflow: "scroll", width: "100vw", height: "calc(100vh - 4.5rem)", scrollBehavior: "smooth" }}>
+        <div
+          id="c_con"
+          style={{
+            overflow: "scroll",
+            width: "100vw",
+            height: "calc(100vh - 4.5rem)",
+            scrollBehavior: "smooth",
+          }}
+        >
           <div id={styles.containers}>
             <h2>
               <img
@@ -128,34 +132,35 @@ function Convo({ params }) {
           {chatData.map((input, index) => {
             return (
               <React.Fragment key={index}>
-                <div id={styles.containers}>
-                  <h2 className={styles.marginTop1rem}>
-                    <img
-                      className={styles.youLogo}
-                      src="/img/youLogo.png"
-                      alt="user logo"
-                    />
-                    You
-                  </h2>
-                  <p key={input.id} className={styles.que}>
-                    {" "}
-                    {input.question}{" "}
-                  </p>
-                </div>
-                <div id={styles.containers}>
-                  <h2>
-                    <img
-                      className={styles.robotIconImg}
-                      src="/img/robotIcoEdit.png"
-                      alt="roboIcon"
-                    />
-                    Enigma
-                  </h2>
-                  <p key={input.id} className={styles.ans}>
-                    {" "}
-                    {input.answer}{" "}
-                  </p>
-                </div>
+                {input.role === "user" ? (
+                  <div id={styles.containers}>
+                    <h2 className={styles.marginTop1rem}>
+                      <img
+                        className={styles.youLogo}
+                        src="/img/youLogo.png"
+                        alt="user logo"
+                      />
+                      You
+                    </h2>
+                    <p key={input.id} className={styles.que}>
+                      {input.content}
+                    </p>
+                  </div>
+                ) : (
+                  <div id={styles.containers}>
+                    <h2>
+                      <img
+                        className={styles.robotIconImg}
+                        src="/img/robotIcoEdit.png"
+                        alt="roboIcon"
+                      />
+                      Enigma
+                    </h2>
+                    <p key={input.id} className={styles.ans}>
+                      {input.content}
+                    </p>
+                  </div>
+                )}
               </React.Fragment>
             );
           })}
@@ -191,6 +196,5 @@ function Convo({ params }) {
       </div>
     </div>
   );
-  
 }
 export default Convo;
