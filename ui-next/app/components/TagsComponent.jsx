@@ -1,12 +1,15 @@
 import styles from '../../convostyles.module.scss'
 
-
 function TagsComponent ({keys}) {
+
+    function runyhiig(){
+        console.log("this is from child function")
+    }
+
     return <div className={styles.tagsComponentDiv}> 
         {keys.map((input, index)=>{
             return <div key={index} className={styles.tags}>
-                  <input style={{display:"none"}} className={styles.qw} id={`${"checkTag"}` + index } type="checkbox"/>
-                  <label onClick={(e)=>updateCheckBoxes(e)} htmlFor={`${"checkTag"}` + index } key ={index}>{input}</label>
+                  <span onClick={runyhiig} htmlFor={`${"checkTag"}` + index } key ={index}>{input}</span>
             </div> 
         })}
      </div>

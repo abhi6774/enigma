@@ -63,6 +63,7 @@ function Convo({ params }) {
 
   const updateCheckBoxes=(e)=>{
     const keycurrent = e.target.innerHTML
+    console.log("Thds is from parent function")
     setkeys(prevKeys => {
       if(keys){
         if(keys.includes(keycurrent)){
@@ -119,32 +120,6 @@ function Convo({ params }) {
     return <div>Loading...</div>;
   }
 
-  // inline styles:
-
-
-  const tagsComponentDivStyles = {
-    borderRadius : "0 30px 30px 30px",
-    listStyleType: "none",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: 'center',
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    gap: "15px",
-    flexWrap: "wrap",
-    paddingLeft: "20px",
-    cursor: "default",
-    width: "50vw"
-  }
-
-  // <div className={styles.tagsComponentDiv}> 
-  // {keys.map((input, index)=>{
-  //     return <div key={index} className={styles.tags}>
-  //           <input style={{display:"none"}} className={styles.qw} id={`${"checkTag"}` + index } type="checkbox"/>
-  //           <label onClick={(e)=>updateCheckBoxes(e)} htmlFor={`${"checkTag"}` + index } key ={index}>{input}</label>
-  //         </div> 
-  //     })}
-  // </div>
 
   return (
     <div className={styles.parentContainer}>
@@ -220,16 +195,7 @@ function Convo({ params }) {
         <div style={{backgroundColor:"transparent"}}>
           <div className={styles.inputbox}>
 
-            {/* <TagsComponent keys={keys}/> */}
-
-            <div styles={tagsComponentDivStyles}> 
-            {keys.map((input, index)=>{
-                return <div key={index} className={styles.tags}>
-                      <input style={{display:"none"}} className={styles.qw} id={`${"checkTag"}` + index } type="checkbox"/>
-                      <label onClick={(e)=>updateCheckBoxes(e)} htmlFor={`${"checkTag"}` + index } key ={index}>{input}</label>
-                    </div> 
-                })}
-            </div>
+            <TagsComponent keys={keys}/>
 
             <form action="" method="post">
               <textarea
