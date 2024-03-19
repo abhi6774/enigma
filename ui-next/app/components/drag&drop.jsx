@@ -29,7 +29,7 @@ const DragDropFiles = () => {
       formData.append("file", files[0]); 
   
       try{
-        const response = await fetch("http://localhost:8000/summarize/pdf", {
+        const response = await fetch("http://192.168.200.169:8000/summarize/pdf", {
           method: "POST",
           body: formData
         })  
@@ -48,6 +48,38 @@ const DragDropFiles = () => {
       }finally {
         setFiles(null)
       }
+
+
+      
+    // try{
+    //   const response = await fetch("http://13.48.136.54:8000/api/api-code/", {
+    //     method: "POST",
+    //     headers: {
+    //       Authorization: "Bearer f25538be-ee8d-4cd0-bcfe-f76c0173487e"
+    //     }
+    //   })  
+
+    //   if (!response.ok) {
+    //     throw new Error(`Error fetching code `, error);
+    //   }
+
+    //   const result = await response.json();
+    //   console.log(result);
+
+    //   router.push(`/conversation/${result["session_id"]}`);
+
+    // }catch (error) {
+    //   console.error('Error:', error);
+    // }finally {
+    //   setFiles(null)
+    // }
+
+//       f25538be-ee8d-4cd0-bcfe-f76c0173487e
+
+      // Each team must integrate the provided API into their project.
+      // The above Access key must be passed in the Authorization header of the API request in the format "Bearer <access_key>".
+      // Use the POST method for the specified API URL: http://13.48.136.54:8000/api/api-code/.
+
     }
   };
 

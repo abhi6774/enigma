@@ -21,17 +21,16 @@ function Convo({ params }) {
     });
   }, []);
 
-  useEffect(() => {
-    if (sessionData) setChatData(sessionData.messages);
-  }, [sessionData]);
+  // useEffect(() => {
+  //   // if (sessionData) setChatData(sessionData.messages);
+  // }, [sessionData]);
 
   async function handleSubmit() {
     if (inputQuery.trim() === "") return;
 
     const dataTemplate = {
-      id: chatData.length + 1,
-      question: inputQuery,
-      answer: "",
+      role: "user",
+      content: inputQuery,
     };
 
     setChatData((prevChatData) => [...prevChatData, dataTemplate]);
@@ -45,9 +44,9 @@ function Convo({ params }) {
   const mainElement = document.querySelector("#\\#main");
 
   function scrollToBottom() {
-    mainElement.scrollTop = mainElement.scrollHeight;
+    // mainElement.scrollTop = mainElement.scrollHeight;
     const el = document.querySelector("#c_con");
-    el.scrollBy(0, el.scrollHeight);
+    el.scroll(0, el.scrollHeight);
   }
 
   const handleKeyPressOnInput = (e) => {
@@ -60,7 +59,7 @@ function Convo({ params }) {
   async function apifetch(query) {
     try {
       const dataraw = await fetch(
-        "http://localhost:8000/chat/" + sessionData._session_id,
+        "http://192.168.200.169:8000/chat/" + sessionData._session_id,
         {
           method: "POST",
           headers: {
@@ -81,8 +80,7 @@ function Convo({ params }) {
       console.log(data);
 
       setChatData((prevChatData) => {
-        const updatedChatData = [...prevChatData];
-        updatedChatData[updatedChatData.length - 1].answer = data;
+        const updatedChatData = [...prevChatData, { role: "assistant", content: data}]
         console.log(chatData);
         return updatedChatData;
       });

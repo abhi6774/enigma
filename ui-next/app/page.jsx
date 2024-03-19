@@ -4,6 +4,7 @@ import DragDropAnalysis from "./components/Drag&Drop";
 import Navbar from "./components/navbar";
 
 export default function Home() {
+
   return (
     <div className={styles.parentContainer}>
 
