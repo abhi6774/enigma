@@ -47,7 +47,6 @@ async def summarize_the_text(data: Input):
 
 
 
-
 @app.post("/summarize/text", response_class=RedirectResponse, status_code=302)
 def get_summary_from_text(data: Input):
     summary = summarize_text(data.content)
@@ -101,7 +100,7 @@ class QuestionInput(BaseModel):
 
 @app.post("/chat/{chat_session}")
 def talk(chat_session: str, inp: QuestionInput):
-
+    if (inp.content == ""): return "" 
     session = sessions.get_chat_session(chat_session)
     mResponse = session.send_message(inp.content)
     return  mResponse
@@ -114,7 +113,7 @@ def talk(chat_session: str):
         **session.__dict__,
         "summary": session.get_summary(),
         "key_entities": session.get_key_entities(),
-        "messages": session.get_messages()[session._context_width:]
+        "messages": session.get_messages()[1:]
     }
 
 

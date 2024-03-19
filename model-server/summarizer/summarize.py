@@ -1,3 +1,4 @@
+import os
 from transformers import pipeline
 from transformers.pipelines import TokenClassificationPipeline, AggregationStrategy
 from transformers import (
@@ -8,7 +9,6 @@ import numpy as np
 from logger import log
 import requests
 from summarizer.utils import split_text, extract_text_from_pdf
-import re
 
 summarizer = pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
 
@@ -53,10 +53,9 @@ def summarize(text: str, total_length: int):
     if total_length > 800:
         splitted_text = split_text(text, total_length, 800)
         summary_pieces = []
-        for t in splitted_text:
-            log(t)
-            summary_pieces.append(summarize_with_llama(t))
-        summary = summarize_with_llama("".join(summary_pieces))
+        for st in splitted_text:
+            summary_pieces.append(st)
+        summary = summarize_with_mistral("".join(summary_pieces))
     else:
         summary = summarize_text(text)
 
@@ -76,20 +75,17 @@ def summarize_from_pdf(filename: str):
     }
 
 
-def summarize_with_llama(text: str) -> str:
-    model_url = "https://api.cloudflare.com/client/v4/accounts/1c7120b407404a4d257e57af5a88f88f/ai/run/@cf/meta/llama-2-7b-chat-fp16"
-    response = requests.post(model_url,
-        headers={"Authorization": f"Bearer 3ti0Lh8dnLmIpbGi-0n7Z9o58JAoBgkBQh3k9tPh"},
-        json={
-            "messages": [
-                {"role": "system", "content": "You are enigma an lawyer AI Assistant"},
-                {"role": "user", "content": f"Summarize: {text}"}
-            ]
-        }
-    )
 
+def summarize_with_mistral(text: str) -> str:
+    model_url = "https://api.mistral.ai/v1/chat/completions"
+    key=os.environ.get("MISTRAL_KEY")
+    response = requests.post(model_url, headers={
+        "Authorization": f"Bearer {key}",
+        "content-type": "application/json"
+    }, json={
+        "model":"open-mistral-7b",
+        "messages": [{"role": "system", "content": "You are enigma an lawyer AI Assistant"},
+        {"role": "user", "content": f"Summarize: {text}"} ]
+    })
     result = response.json()
-    if result["success"]:
-        log(result["result"]["response"])
-        return result["result"]["response"]
-    return result
+    return result["choices"][0]["message"]["content"]

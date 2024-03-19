@@ -3,6 +3,7 @@ from dataclasses import dataclass, asdict
 import requests
 import json
 from logger import log
+import os
 
 @dataclass
 class Message:
@@ -38,7 +39,6 @@ class Chat:
     _summary: str
     _key_entities: list[str]
     _chat_content: list[Message] = []
-    _context_width = 0
 
     _system="""
         You are Enigma, an LLM developed by Team Strivers to summarize legal documents and extract key insights. Your primary function is to respond to questions related to specific paragraphs within these documents.
@@ -71,49 +71,38 @@ class Chat:
     def set_context(self, context: str):
         self._context = context
         log(self._chat_content)
-        if len(self._context) > 6144:
-            context_copy = self._context
-            while len(context_copy) > 6144:
-                self._context_width += 1
-                piece,context_copy = context_copy[:6000], context_copy[6000:]
-                self._chat_content.append(
-                    Message(f"[Context] \n{piece} [Context]", role="assistant"))
-            if (self._context_width < 1):
-                self._context_width = 1
+        self._chat_content.append(
+            Message(f"[Context] \n{self._context} [Context]", role="assistant"))
         return "done"
 
     def get_context(self):
         return self._context
 
-    def _get_model_response(self) -> ChatResponse:
-        for i in self._chat_content:
-            log(i.__dict__)
-
-        response = requests.post(
-            f"https://api.cloudflare.com/client/v4/accounts/1c7120b407404a4d257e57af5a88f88f/ai/run/@cf/meta/llama-2-7b-chat-fp16",
-            headers={"Authorization": f"Bearer 3ti0Lh8dnLmIpbGi-0n7Z9o58JAoBgkBQh3k9tPh"},
-
-            json={
+    def _get_model_response(self) -> str:
+        try:
+            model_url = "https://api.mistral.ai/v1/chat/completions"
+            key=os.environ.get("MISTRAL_KEY")
+            response = requests.post(model_url, headers={
+                "Authorization": f"Bearer {key}",
+                "content-type": "application/json"
+            }, json={
+                "model": "open-mistral-7b",
                 "messages": [
-                {"role": "system", "content": self._system},
+                    {"role": "system", "content": self._system},
                     *self.get_messages()
-                ]
-            }
-        )
-
-        result = response.json()
-        log(result)
-        if result["success"]:
-            log(result["result"]["response"])
-            self._chat_content.append(Message(role="assistant", content=result["result"]["response"]))
-            return result["result"]["response"]
-        return "failed"
+                ],
+            })
+            result = response.json()
+            return result["choices"][0]["message"]["content"]
+        except:
+            return "failed"
+    
 
     def send_message(self, inp: str, bot=False):
-        if bot:
-            self._chat_content.append(Message(role="assistant", content=inp))
         self._chat_content.append(Message(inp))
-        return self._get_model_response()
+        model_response = self._get_model_response()
+        self._chat_content.append(Message(role="assistant", content=model_response))
+        return model_response
     
     def get_messages(self):
         return [message.__dict__ for message in self._chat_content]
