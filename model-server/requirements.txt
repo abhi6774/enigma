@@ -1,0 +1,14 @@
+fastapi==0.110.0
+langchain==0.1.10
+langchain-community==0.0.25
+langchain-core==0.1.28
+langchain-text-splitters==0.0.1
+langsmith==0.1.13
+numpy==1.26.4
+PyMuPDF==1.23.26
+python-multipart==0.0.9
+requests==2.25.1
+uvicorn==0.27.1
+transformers==4.38.2
+torch==2.2
+python-dotenv==1.0.1
