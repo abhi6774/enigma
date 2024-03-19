@@ -157,7 +157,8 @@ $navHeight: 3.75rem;
     background-color: $dialougeBackground;
     box-shadow: 0 0 35px 7px rgba(0,0,0,20%);
     transform: scale(0.9);
-
+    padding: 2rem;
+    word-break: break-all;
     .dragAndDrop{
       @include flexCenter(row);
       gap: 15px;
@@ -290,33 +291,6 @@ $navHeight: 3.75rem;
     }
   }    
 }
-
-/* Large smartphones and small tablets */
-@media only screen and (min-width : 768px) and (max-width : 1024px){
-  .main{
-
-  }   
-}
-
-// /* Medium tablets (iPad 2, Galaxy Tab 10.1, etc.) */
-// @media only screen and (min-width : 1024px){
-//   .main{
-//     background: #333;
-//   }    
-// }
-
-// /* Large tablets and small laptops (MacBook Air 11", etc.) */
-// @media only screen and (min-width : 1200px){
-//   .main{
-//     background: #444;
-//   }    
-// }
-
-
-
-
-// unnessasary
-
 
 .container {
   display: flex;

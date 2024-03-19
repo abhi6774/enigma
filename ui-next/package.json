@@ -20,6 +20,7 @@
     "scss": "^0.2.4"
   },
   "devDependencies": {
+    "@types/node": "20.11.29",
     "@types/react": "^18.2.64",
     "eslint": "^8",
     "eslint-config-next": "14.1.0"

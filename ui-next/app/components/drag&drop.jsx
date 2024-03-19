@@ -26,7 +26,7 @@ const DragDropFiles = () => {
     }else{
 
       const formData = new FormData();
-      formData.append("file", files[0]);
+      formData.append("file", files[0]); 
   
       try{
         const response = await fetch("http://localhost:8000/summarize/pdf", {
@@ -39,8 +39,9 @@ const DragDropFiles = () => {
         }
 
         const result = await response.json();
-        window.sessionStorage.setItem("summary_response", JSON.stringify(result));
-        router.push("/conversation");
+        console.log(result["session_id"]);
+
+        router.push(`/conversation/${result["session_id"]}`);
 
       }catch (error) {
         console.error('Error:', error);
@@ -54,20 +55,15 @@ const DragDropFiles = () => {
     files == null ? setFileAvailibility(null) : setFileAvailibility(files[0].name)
   },[files])
 
-  if (files) return (
+  if (files) 
+  return (
     <div className={styles.dragdropContainer}>
       <div className={styles.card}>
         <h4>{files[0].name}</h4>      
         <button className={styles.selectFileBtn} onClick={() => setFiles(null)}>Cancel</button>
       </div>
-
-      {/* <Link className={styles.link} href="/conversation"> */}
         <button onClick={()=>Upload()} id={styles.analysisbutton}>Analysis Results</button>
-      {/* </Link> */}
-
-
     </div>
-            
   )
 
   return (
@@ -95,7 +91,7 @@ const DragDropFiles = () => {
                   ref={inputRef}
                   type="file" 
                   id="upload-file"
-                  accept=".pdf,.doc,.docx"
+                  accept=".pdf"
                   style={{display:"none"}}/>
             </label>
           </div> 
