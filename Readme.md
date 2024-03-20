@@ -30,8 +30,8 @@ uvicorn main:app
 
 Sample Images of the Project
 
-1. ![Sample Image 1](https://github.com/abhi/enigma/blob/main/source/s1.png)
+1. ![Sample Image 1](https://github.com/abhi6774/enigma/blob/main/source/s1.png)
 
-2. ![Sample Image 2](https://github.com/abhi/enigma/blob/main/source/s2.png)
+2. ![Sample Image 2](https://github.com/abhi6774/enigma/blob/main/source/s2.png)
 
-3. ![Sample Image 3](https://github.com/abhi/enigma/blob/main/source/s3.png)
+3. ![Sample Image 3](https://github.com/abhi6774/enigma/blob/main/source/s3.png)
