@@ -33,7 +33,7 @@ const DragDropFiles = () => {
       // console.log(fetchingPDF)
 
       try{
-        const response = await fetch("http://192.168.200.169:8000/summarize/pdf", {
+        const response = await fetch("http://localhost:8000/summarize/pdf", {
           method: "POST",
           body: formData
         })  
@@ -55,28 +55,26 @@ const DragDropFiles = () => {
 
 
       
-    // try{
-    //   const response = await fetch("http://13.48.136.54:8000/api/api-code/", {
-    //     method: "POST",
-    //     headers: {
-    //       Authorization: "Bearer f25538be-ee8d-4cd0-bcfe-f76c0173487e"
-    //     }
-    //   })  
+    try{
+      const response = await fetch("http://13.48.136.54:8000/api/api-code/", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer f25538be-ee8d-4cd0-bcfe-f76c0173487e"
+        }
+      })  
 
-    //   if (!response.ok) {
-    //     throw new Error(`Error fetching code `, error);
-    //   }
+      if (!response.ok) {
+        throw new Error(`Error fetching code `, error);
+      }
 
-    //   const result = await response.json();
-    //   console.log(result);
+      const result = await response.json();
+      console.log(result);
 
-    //   router.push(`/conversation/${result["session_id"]}`);
+      router.push(`/conversation/${result["session_id"]}`);
 
-    // }catch (error) {
-    //   console.error('Error:', error);
-    // }finally {
-    //   setFiles(null)
-    // }
+    }catch (error) {
+      console.error('Error:', error);
+    }
 
 //       f25538be-ee8d-4cd0-bcfe-f76c0173487e
 

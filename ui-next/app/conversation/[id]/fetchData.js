@@ -2,7 +2,7 @@ export async function fetchSessionData(sessionId) {
     const response = { data: null, error: null }
     try {
       const dataraw = await fetch(
-        "http://192.168.200.169:8000/chat/s/" + sessionId,
+        "http://localhost:8000/chat/s/" + sessionId,
         {
           method: "GET",
         }

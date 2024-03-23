@@ -84,7 +84,7 @@ function Convo({ params }) {
   async function apifetch(query) {
     try {
       const dataraw = await fetch(
-        "http://192.168.200.169:8000/chat/" + sessionData._session_id,
+        "http://localhost:8000/chat/" + sessionData._session_id,
         {
           method: "POST",
           headers: {
